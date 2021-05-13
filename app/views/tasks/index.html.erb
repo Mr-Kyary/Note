@@ -2,7 +2,7 @@
 <form method="POST" action="/tasks">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <div>
-    <label for="task">Task Name</label>
+    <label for="task">内容</label>
     <input id="task" name="task" type="text" required>
   </div>
   <div>
@@ -11,11 +11,11 @@
       <option value="<%= s %>"><%= s %></option>
       <% end %>
     </select>
-    <label>Task State</label>
+    <label>分類</label>
   </div>
   <div>
     <input type="date" name="limit_date" required>
-    <label>Task Limit Day</label>
+    <label>期限</label>
   </div>
   <p>
     <button type="submit">create</button>
