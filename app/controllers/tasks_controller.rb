@@ -21,7 +21,7 @@ class TasksController < ApplicationController
 
     def update
         id   = params[:id]
-        task = Task.find(1)
+        task = Task.find(id)
 
         task.task = params[:task]
         task.state = params[:state]

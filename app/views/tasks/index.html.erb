@@ -24,38 +24,42 @@
 </form>
 <%# flash message %>
 <% flash.each do |msg| %>
-<p>
-  <%= msg %>
-</p>
+<div class="alert alert-primary" role="alert">
+  <%= msg[1] %>
+</div>
 <% end %>
 
 <table>
-  <thead>
-    <tr>
-      <th>State</th>
-      <th>Limit</th>
-      <th>Task</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
   <tbody>
     <% @tasks.each do |t| %>
-    <tr>
-      <td><%= t.state %></td>
-      <td><%= t.limit_date %></td>
-      <td><%= t.task %></td>
-      <td>
-        <a href="/tasks/<%= t.id %>">edit</a>
-      </td>
-      <td>
-        <form method="POST" action="/tasks/<%= t.id %>">
-          <input type="hidden" name="_method" value="DELETE">
-          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-          <button type="submit">delete</button>
-        </form>
-      </td>
-    </tr>
+    <div class="list-group">
+      <tr class="list-group-item list-group-item-action list-group-item-light">
+          <%# 各タスクの色変更 %>
+          <%
+            task_state = {}
+            if t.state == 'todo'
+              task_state[:state_color] = 'alert-info' 
+            elsif t.state == 'doing'
+              task_state[:state_color] = 'alert-light'
+            else
+              task_state[:state_color] = 'alert-success'
+            end
+          %>
+        <td class="alert <%= task_state[:state_color] %>"><%= t.state %></td>
+        <td>
+          <a href="/tasks/<%= t.id %>" class="btn btn-primary">edit</a>
+        </td>
+        <td>
+          <form method="POST" action="/tasks/<%= t.id %>">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <button type="submit" class="btn btn-secondary">delete</button>
+          </form>
+        </td>
+        <td><%= t.limit_date %>  </td>
+        <td><%= t.task %></td>
+      </tr>
+    </div>
     <% end %>
   </tbody>
 </table>
