@@ -3,17 +3,26 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 //= require jquery
-import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
-import "channels"
+window.jQuery = $;
+window.$ = $;
+
+require("@rails/ujs").start()
+require("turbolinks").start()
+require("@rails/activestorage").start()
+require("channels")
 require('jquery')
 
-Rails.start()
-Turbolinks.start()
-ActiveStorage.start()
+import 'bootstrap';
+import '../stylesheets/application';
 
+// import Rails from "@rails/ujs"
+// // import Turbolinks from "turbolinks"
+// import * as ActiveStorage from "@rails/activestorage"
+// import "channels"
 
-$(function(){
-    $('.flash').fadeOut(000);  //４秒かけて消えていく
-  });
+// Rails.start()
+// Turbolinks.start()
+// ActiveStorage.start()
+// // require('jquery')
+
+// require('jquery')

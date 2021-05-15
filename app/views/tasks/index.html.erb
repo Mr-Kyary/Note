@@ -1,4 +1,34 @@
+<form method="POST" action="/tasks">
+  <div class="pos-f-t">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <div class="collapse" id="navbarToggleExternalContent">
+      <div class="bg-dark p-4">
+        <label class="text-info" for="task">内容</label>
+        <input id="task" name="task" type="text" required>
+        <label class="text-info">分類</label>
+        <select name="state">
+        <% @status.each_with_index do |s,i| %>
+        <option value="<%= s %>"><%= s %></option>
+        <% end %>
+        </select>
+        <div>
+        <label class="text-info">期限</label>
+          <input type="date" name="limit_date" required>
+        </div>
+        <p>
+          <button class="btn btn-success" type="submit">create</button>
+        </p>
+      </div>
+    </div>
+    <nav class="navbar navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+  </div>
+</form>
 
+<!--
 <form method="POST" action="/tasks">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <div>
@@ -22,44 +52,60 @@
   </p>
 </div>
 </form>
-<%# flash message %>
-<% flash.each do |msg| %>
-<div class="alert alert-primary" role="alert">
-  <%= msg[1] %>
-</div>
-<% end %>
+-->
+<div class="wrapper">
+  <%# flash message %>
+  <% flash.each do |msg| %>
+  <div class="alert alert-primary" role="alert">
+    <%= msg[1] %>
+  </div>
+  <% end %>
 
-<table>
-  <tbody>
-    <% @tasks.each do |t| %>
-    <div class="list-group">
-      <tr class="list-group-item list-group-item-action list-group-item-light">
+  <table>
+    <tbody>
+      <% @tasks.each do |t| %>
+      <div class="container">
+        <div class="list-group">
           <%# 各タスクの色変更 %>
           <%
             task_state = {}
             if t.state == 'todo'
-              task_state[:state_color] = 'alert-info' 
+              task_state[:state_color] = 'alert-info'
+              task_state[:state_emoji] = "⏯" ##再生・一時停止
             elsif t.state == 'doing'
-              task_state[:state_color] = 'alert-light'
+              task_state[:state_color] = 'alert-secondary'
+              task_state[:state_emoji] = "🏃" ##走る男
             else
               task_state[:state_color] = 'alert-success'
+              task_state[:state_emoji] = "✅" ##チェック
+              
             end
           %>
-        <td class="alert <%= task_state[:state_color] %>"><%= t.state %></td>
-        <td>
-          <a href="/tasks/<%= t.id %>" class="btn btn-primary">edit</a>
-        </td>
-        <td>
-          <form method="POST" action="/tasks/<%= t.id %>">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-            <button type="submit" class="btn btn-secondary">delete</button>
-          </form>
-        </td>
-        <td><%= t.limit_date %>  </td>
-        <td><%= t.task %></td>
-      </tr>
-    </div>
-    <% end %>
-  </tbody>
-</table>
+          <div class="alert <%= task_state[:state_color] %>">
+            <div>
+              <pre><%= task_state[:state_emoji]%>  <strong><%= t.state %></strong>　&#x1f55d; <%= t.limit_date %></pre>
+            </div>
+            <div>
+              <strong><%= t.task %></strong>
+            </div>
+            <div>
+              <ul class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                  <a href="/tasks/<%= t.id %>" class="btn btn-primary">edit</a>
+                </li>
+                <li class="nav-item">
+                  <form method="POST" action="/tasks/<%= t.id %>">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <button type="submit" class="btn btn-secondary">delete</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
