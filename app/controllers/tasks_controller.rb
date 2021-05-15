@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
     def index
+        # データベース内全部表示
         @tasks = Task.order('limit_date').all
         @status = ['todo', 'doing', 'done']  
     end
@@ -18,7 +19,7 @@ class TasksController < ApplicationController
         @task = Task.find(id)
         @status = ['todo', 'doing', 'done']
     end
-
+    
     def update
         id   = params[:id]
         task = Task.find(id)

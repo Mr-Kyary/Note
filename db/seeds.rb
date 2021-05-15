@@ -13,9 +13,10 @@
 require 'date'
 task_arry = ["買い出し", "風呂沸かす", "トイレットペーパー買う", "お金下ろす"]
 status_arry = ['todo', 'doing', 'done']
-t_since = Date.parse('2021/05/12')
-t_until = Date.parse('2021/06/30')
+t_since = Date.parse('2021/05/24')
+t_until = Date.parse('2022/05/31')
 
+# モックデータ10個作成
 10.times do
     task = Task.new
     task.task = task_arry.sample
